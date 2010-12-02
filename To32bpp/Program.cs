@@ -21,12 +21,18 @@ namespace To32bpp
                         Image src = Image.FromFile(path);
                         Bitmap dest = new Bitmap(src.Width, src.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
                         Graphics g = Graphics.FromImage(dest);
-                        g.DrawImage(src, new Rectangle(new Point(0, 0), src.Size), new Rectangle(new Point(0, 0), src.Size), GraphicsUnit.Pixel);
+                        Rectangle rect = new Rectangle(new Point(0, 0), src.Size);
+                        g.DrawImage(src, rect, rect, GraphicsUnit.Pixel);
                         dest.Save(path + ".32bpp" + fi.Extension);
+                        g.Dispose();
                         src.Dispose();
+                        dest.Dispose();
+                        Console.WriteLine("Converted " + path + " successfully!");
                     }
-                    catch { }
+                    catch { Console.WriteLine("Couldn't convert " + path + ", possibly not a valid image type."); }
                 }
+                else
+                    Console.WriteLine("Couldn't convert " + path + ", file doesn't exist!");
             }
         }
     }
