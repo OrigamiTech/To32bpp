@@ -18,11 +18,12 @@ namespace To32bpp
                     try
                     {
                         FileInfo fi = new FileInfo(path);
-                        Image imgLoad = Image.FromFile(path);
-                        Bitmap bmp2 = new Bitmap(imgLoad.Width, imgLoad.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
-                        Graphics g = Graphics.FromImage(bmp2);
-                        g.DrawImageUnscaled(imgLoad, new Point(0, 0));
-                        bmp2.Save(path + ".32bpp" + fi.Extension);
+                        Image src = Image.FromFile(path);
+                        Bitmap dest = new Bitmap(src.Width, src.Height, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+                        Graphics g = Graphics.FromImage(dest);
+                        g.DrawImage(src, new Rectangle(new Point(0, 0), src.Size), new Rectangle(new Point(0, 0), src.Size), GraphicsUnit.Pixel);
+                        dest.Save(path + ".32bpp" + fi.Extension);
+                        src.Dispose();
                     }
                     catch { }
                 }
